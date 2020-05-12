@@ -1,4 +1,4 @@
-data terraform_remote_state "this" {
+/*data terraform_remote_state "this" {
   backend = "remote"
 
   config = {
@@ -8,3 +8,4 @@ data terraform_remote_state "this" {
     }
   }
 }
+*/
