@@ -7,12 +7,11 @@ resource random_password "azure-oidc" {
 }
 
 resource azuread_application "azure-oidc" {
-  name                       = "azure-oidc"
+  name                       = "oidc-demo"
   reply_urls                 = [
     "http://localhost:8250/oidc/callback",
     "${local.vault_url}/ui/vault/auth/oidc/oidc/callback"
   ]
-  group_membership_claims    = "SecurityGroup"
   required_resource_access {
     # Add MS Graph Group.Read.All API permissions
     resource_app_id = "00000003-0000-0000-c000-000000000000"
