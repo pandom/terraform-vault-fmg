@@ -63,12 +63,12 @@ resource vault_jwt_auth_backend_role "default" {
 }
 
 resource vault_identity_entity "this" {
-  for_each = var.user_details
+  for_each = local.users
   name = each.key
 }
 
 resource vault_identity_entity_alias "this" {
-  for_each = var.user_details
+  for_each = local.users
   name            = each.value
   mount_accessor  = vault_jwt_auth_backend.oidc.accessor
   canonical_id    = vault_identity_entity.this[each.key].id
