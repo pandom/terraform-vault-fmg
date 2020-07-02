@@ -22,6 +22,27 @@
     user:
       name: vault
       state: present
+      groups:
+        - vault
+
+  - name: Create Ubuntu User
+    user:
+      name: ubuntu
+      state: present
+
+  - name: Add Vault user to sudoers
+    lineinfile:
+      path: /etc/sudoers
+      line: "vault ALL=(ALL) NOPASSWD: ALL"
+      state: present
+
+  - name: Define trusted keys path
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: ^#AuthorizedKeysFile
+      line: "TrustedUserCAKeys /etc/ssh/trusted-user-ca-keys.pem"
+      state: present
+
 
   - name: Download Vault Binary
     get_url:
@@ -49,6 +70,20 @@
       owner: root
       group: root
       mode: '0644'
+
+  - name: Create Vault conf directory
+    file:
+      path: /etc/vault.d
+      state: directory
+      owner: vault
+      group: vault
+
+  - name: Create Vault pid directory
+    file:
+      path: /run/vault
+      state: directory
+      owner: vault
+      group: vault
 
   - name: Disable Vault Service
     systemd:

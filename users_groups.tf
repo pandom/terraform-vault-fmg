@@ -31,12 +31,14 @@ module "group_admin" {
     for k,v in local.admin_users: lookup(module.user_onboarding.entities, k)
   ]
   policy_name = "admin"
-  policy_contents = templatefile("${path.module}/policies/kv_read.hcl",
+  policy_contents = templatefile("${path.module}/policies/admin.hcl",
     {
       path = vault_mount.kv.path
     }
   )
 }
+
+
 
 module "group_kv_reader" {
   source = "github.com/grantorchard/terraform-vault-module-policies"

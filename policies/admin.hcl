@@ -51,3 +51,8 @@ path "sys/health"
 {
   capabilities = ["read", "sudo"]
 }
+
+path "ssh/*"
+{
+  capabilities = ["create", "read", "update", "delete"]
+}
