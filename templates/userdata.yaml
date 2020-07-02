@@ -1,0 +1,22 @@
+#cloud-config
+packages:
+  - jq
+  - unzip
+
+write_files:
+  - path: /etc/vault.d/vault.conf
+    content: ${vault_conf}
+    permissions: '0644'
+    owner: vault:vault
+    encoding: b64
+  - path: /etc/nginx/sites-available/nginx
+    content: ${nginx}
+    permissions: '0644'
+    owner: root:root
+    encoding: b64
+
+runcmd:
+  - curl -o /etc/ssh/trusted-user-ca-keys.pem http://azure-vault.go.hashidemos.io:8200/v1/ssh/public_key
+  - ln -s /etc/nginx/sites-available/nginx /etc/nginx/sites-enabled/
+  - systemctl enable vault
+  - systemctl start vault
